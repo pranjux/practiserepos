@@ -1,0 +1,70 @@
+opt=1
+cont=1
+while [ "$opt" -lt 6 ]
+do
+
+	echo -e "1. Create Address Book\n2. View Records\n3 .Insert new Record\n4. Delete a Record\n5. Modify a Record\n6. Exit\n\n"
+	read opt
+	case $opt in 
+1)
+    echo "Enter File Name: "
+	read fname
+	if [ -e $fname ]
+	then
+		rm $fname 
+	fi 
+		
+	echo -e "NAME\t\tNUMBER\t\t\tADDRESS\n********************\n" | cat >> $fname
+	while [ "$cont" -gt 0 ]
+	do 
+		echo "Enter Your Name: "
+		read name
+		echo -e "Enter Phone Number of $name "
+		read pnumber
+		echo -e "Enter Address of $name "
+		read addr
+		echo -e "$name\t\t$pnumber\t\t$addr\n" | cat >> $fname
+		echo "Enter 0 to stop, 1 to enter next "
+		read cont
+	done
+	;;
+2)  
+    cat $fname
+	;;
+3)      
+    echo "Enter Your Name: "
+	read name
+	echo -e "Enter Phone Number of $name "
+	read pnumber
+	echo -e "Enter Address of $name "
+	read addr
+	echo -e "$name\t\t$pnumber\t\t$addr\n" | cat >> $fname
+	;;
+4)
+    echo -e "Delete record\nEnter Name/Phone Number "
+	read pattern
+	temp="temp"
+	grep -v $pattern $fname | cat >> $temp 
+	rm $fileName
+	cat $temp | cat >> $fname
+	rm $temp
+	;;
+5)
+    echo -e "Modify record\nEnter Name/Phone Number "
+	read pattern
+	temp="temp"
+	grep -v $pattern $fname | cat >> $temp
+	rm $fname
+	cat $temp | cat >> $fname
+	rm $temp
+	echo "Enter Name " 
+	read name
+	echo -e "Enter Phone Number of $name"
+	read pnumber
+	echo -e "Enter Address of $name"
+	read addr
+	echo -e "$name\t$pnumber\t\t$addr\n" | cat >> $fname
+	;;
+        
+	esac
+Done
